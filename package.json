@@ -1,0 +1,32 @@
+{
+  "name": "mockapy",
+  "version": "1.0.0",
+  "description": "Mock rest api",
+  "main": "src/bin.js",
+  "scripts": {
+    "start": "node src/bin.js",
+    "test": "jest"
+  },
+  "bin": {
+    "mockapy": "./src/bin.js"
+  },
+  "author": "Cyril Bois",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyrilbois/mockapy.git"
+  },
+  "homepage": "https://github.com/cyrilbois/mockapy#readme",
+  "bugs": {
+    "url": "https://github.com/cyrilbois/mockapy/issues"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "pyodide": "^0.27.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}
