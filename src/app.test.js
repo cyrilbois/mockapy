@@ -8,7 +8,7 @@ const createApp = require('./app.js');
 describe('App', () => {
     let app, controller;
 
-    beforeEach(() => {
+    beforeEach(async() => {
         const db = DB.createFromData({
             test: [
                 { id: '1', name: 'Item 1', description: 'Description 1' }, 
@@ -17,13 +17,15 @@ describe('App', () => {
         });
         const service = new Service(db);
         controller = new Controller(service);
-        const rule = Rule.createFromScript(`
-        if request.id() == "4" then
-            response.status(401);
-            response.send("test ok");
-            response.exit();
-        end
-        `);
+        const rule = await Rule.createFromScript(`import request\n\
+import response\n\
+\n\
+def handle_request(): \n\
+    if request.id() == "4":
+        response.status(401)
+        response.send("test ok")
+        response.exit()
+`);
         app = createApp(controller, rule);
     });
 
@@ -143,18 +145,20 @@ describe('App', () => {
     });
 
     test('Custom rules failed', async () => {
-        const rule = Rule.createFromScript(`
-        if request.id() == "4" then
-            response.status(401);
-            response.send("test ok");
-            response.exit();
-        end
-        syntax error
-        `);
+        const rule = Rule.createFromScript(`import response\
+\
+def handle_request(): \
+    if request.id() == "4" then
+        response.status(401);
+        response.send("test ok");
+        response.exit();
+    end
+    syntax error
+`);
         appFailed = createApp(controller, rule);
 
         const response = await request(appFailed).get('/test/1');
         expect(response.status).toBe(500);
-        expect(response.text).toBe('Custom rules are invalid');
+        expect(response.text).toBe('Something broke!');
     });
 });
