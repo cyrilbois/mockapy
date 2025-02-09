@@ -115,6 +115,8 @@ GET     /products?page=2&limit=5  Returns 5 products from the second page (Page 
 
 Custom rules are Python code that allow you to modify the behavior of the fake REST API. With custom rules, you can set conditions based on the request (such as HTTP method, headers, and payload) and define the response (including HTTP status code and payload). This enables you to tailor the API's behavior to suit specific testing and development scenarios.
 
+Your Python script must define a function handle_request that contains the rules.
+
 Python code is executed via Pyodide in a Node.js environment. Pyodide is a Python distribution for the browser and Node.js based on WebAssembly.
 
 The Request and Response objects are provided to define the rules.
